@@ -1,0 +1,18 @@
+.CustomChart {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.CustomChart__resetZoom {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  font-size: 12px;
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}

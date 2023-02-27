@@ -1,0 +1,103 @@
+{
+  "data": [
+    {
+      "action": "msg",
+      "type": "sensor",
+      "body": {
+        "name": "DHT11",
+        "data": [
+          {
+            "label": "Temperature",
+            "value": 25.5,
+            "unit": "C"
+          },
+          {
+            "label": "Humidity",
+            "value": 50.5,
+            "unit": "%"
+          }
+        ]
+      }
+    },
+    {
+      "action": "msg",
+      "type": "sensor",
+      "body": {
+        "name": "DHT11",
+        "data": [
+          {
+            "label": "Temperature",
+            "value": 15.5,
+            "unit": "C"
+          },
+          {
+            "label": "Humidity",
+            "value": 60.5,
+            "unit": "%"
+          }
+        ]
+      }
+    },
+    {
+      "action": "msg",
+      "type": "sensor",
+      "body": {
+        "name": "DHT11",
+        "data": [
+          {
+            "label": "Temperature",
+            "value": 35.5,
+            "unit": "C"
+          },
+          {
+            "label": "Humidity",
+            "value": 30.5,
+            "unit": "%"
+          }
+        ]
+      }
+    },
+    {
+      "action": "msg",
+      "type": "sensor",
+      "body": {
+        "name": "Hall Effect",
+        "data": [
+          {
+            "label": "Speed",
+            "value": 70.5,
+            "unit": "RPM"
+          }
+        ]
+      }
+    },
+    {
+      "action": "msg",
+      "type": "sensor",
+      "body": {
+        "name": "Hall Effect",
+        "data": [
+          {
+            "label": "Speed",
+            "value": 60.5,
+            "unit": "RPM"
+          }
+        ]
+      }
+    },
+    {
+      "action": "msg",
+      "type": "sensor",
+      "body": {
+        "name": "Hall Effect",
+        "data": [
+          {
+            "label": "Speed",
+            "value": 80.5,
+            "unit": "RPM"
+          }
+        ]
+      }
+    }
+  ]
+}
