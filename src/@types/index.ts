@@ -6,7 +6,7 @@ export interface iChartData {
 
 export interface iChartRawData {
     action: "msg";
-    type: "sensor" | "led_state" | "error";
+    type: "sensor" | "led_state" | "toggle_led" | "error";
     body: {
         name: string;
         data: iChartData[];

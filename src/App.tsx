@@ -52,6 +52,8 @@ function App() {
                         return;
                     }
 
+                    if (rawData.type === "toggle_led") return;
+
                     const {
                         body: { name, data },
                     } = rawData;
