@@ -42,7 +42,7 @@ const CustomChart = ({ label, values, unit, transition }: iChartProps & { transi
     const preparedData: { x: number; y: number }[] = useMemo(() => {
         return values.map((value, index) => {
             return {
-                x: index * 0.5,
+                x: index,
                 y: value,
             };
         });

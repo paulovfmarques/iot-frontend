@@ -1,11 +1,11 @@
 import "./style.scss";
-import React, { useState } from "react";
+import React from "react";
 import Grow from "@mui/material/Grow";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { AlertTriangle, Cpu, Loader, XSquare } from "react-feather";
+import { AlertTriangle, Cpu, Loader } from "react-feather";
 import { CustomChart } from "../CustomChart";
 import { iPreparedData } from "../../@types";
 
