@@ -60,6 +60,7 @@ const CustomChart = ({ label, values, unit, transition }: iChartProps & { transi
                 borderColor: datasetColor,
                 backgroundColor: datasetColor,
                 fill: false,
+                pointRadius: 2,
             },
         ],
     };
@@ -108,13 +109,14 @@ const CustomChart = ({ label, values, unit, transition }: iChartProps & { transi
                     },
                 },
                 zoom: {
+                    speed: 0.05,
                     wheel: {
                         enabled: true,
                     },
                     pinch: {
                         enabled: false,
                     },
-                    mode: "xy",
+                    mode: "y",
                 },
             },
         },

@@ -1,15 +1,19 @@
 .Header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
   display: flex;
   place-items: center;
-  padding: 1rem 2rem 0 2rem;
+  padding: 0 2rem 0 2rem;
   height: 56px;
   max-height: 56px;
+  min-height: 56px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
   background-color: #fff;
 
   @media (max-width: 768px) {
     height: 48px;
-    padding: 1rem;
+    min-height: 48px;
     justify-content: center;
   }
 }

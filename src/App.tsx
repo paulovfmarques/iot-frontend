@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { v4 as uuidv4 } from "uuid";
 import { Layout, Main } from "./components";
 import { iChartRawData, iDataState, iPreparedData } from "./@types";
 
+const WSS_URL = "wss://d441ny46de.execute-api.sa-east-1.amazonaws.com/dev";
+
 function App() {
+    const [ledState, setLedState] = useState({});
     const [chartData, setChartData] = useState<iDataState>({});
     const [shouldConnect, setShouldConnect] = useState(false);
     const [isConnected, setIsConnected] = useState(false);
-    const [error, setError] = useState<any>([]);
 
     const { lastJsonMessage, sendMessage } = useWebSocket(
-        "wss://owmyj4aod8.execute-api.sa-east-1.amazonaws.com/dev",
+        WSS_URL,
         {
             onOpen: () => {
                 setIsConnected(true);
-                console.log(`Connected to App WS`);
+                toast(`Connected to websocket server`);
             },
             onClose: () => {
                 setIsConnected(false);
-                console.log(`Disconnected from App WS`);
+                toast(`Disconnected from websocket server`, {
+                    type: "warning",
+                });
             },
             onMessage: () => {
                 if (lastJsonMessage) {
@@ -29,16 +35,23 @@ function App() {
                     if (type === "error") {
                         const { body } = rawData as any;
                         if (typeof body === "string") {
-                            setError((prev: string[]) => [...new Set([...prev, body])]);
+                            toast(body, { type: "error" });
                         } else {
-                            setError((prev: string[]) => [...new Set([...prev, JSON.stringify(body)])]);
+                            toast(JSON.stringify(body), { type: "error" });
                         }
                         return;
                     }
 
-                    setError([]);
-
                     const obj: iDataState = {};
+
+                    if (rawData.type === "led_state") {
+                        setLedState({
+                            ledPin: rawData.body.ledPin,
+                            state: rawData.body.state,
+                        });
+                        return;
+                    }
+
                     const {
                         body: { name, data },
                     } = rawData;
@@ -49,6 +62,7 @@ function App() {
                         setChartData({
                             [name]: data,
                         });
+                        return;
                     } else {
                         chartDataEntries.forEach(([key, value]) => {
                             if (key === name) {
@@ -59,6 +73,7 @@ function App() {
                         });
 
                         setChartData(obj);
+                        return;
                     }
                 }
             },
@@ -67,14 +82,9 @@ function App() {
                 deviceId: localStorage.getItem("deviceId") || "",
             },
             onError: (event) => {
-                setError(
-                    `Algo deu errado na conexão com o websocket.
-                    Verifique se o API Gateway ID usado é consistente com o ID do seu API Gateway.`,
-                );
-                console.error(event);
+                toast("Algo deu errado na conexão com o websocket.", { type: "error" });
             },
             shouldReconnect: () => {
-                console.log("Reconnecting...");
                 return true;
             },
             reconnectInterval: 3000,
@@ -113,16 +123,28 @@ function App() {
         setChartData({});
     };
 
+    const toggleLedState = () => {
+        sendMessage(
+            JSON.stringify({
+                action: "msg",
+                type: "toggle_led",
+                ledPin: 15,
+            }),
+        );
+    };
+
     return (
         <Layout>
             <Main
-                error={error}
+                toggleLedState={toggleLedState}
+                ledState={ledState}
                 data={preparedData}
                 shouldConnect={shouldConnect}
                 isConnected={isConnected}
                 handleConnection={handleConnection}
                 handleClearData={handleClearData}
             />
+            <ToastContainer />
         </Layout>
     );
 }

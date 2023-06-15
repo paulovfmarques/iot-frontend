@@ -12,51 +12,7 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  max-width: 1500px;
   padding: 1rem 0;
-
-  .Main__left {
-    display: flex;
-    flex-direction: column;
-    place-items: center;
-    position: sticky;
-    gap: 0.5rem;
-    top: 100px;
-    height: 100%;
-    width: 30%;
-    max-width: 350px;
-
-    .Main__form--wrapper {
-      display: flex;
-      flex-direction: column;
-      place-items: center;
-      height: 100%;
-      min-height: 250px;
-      width: 100%;
-      padding: 16px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
-    }
-
-    .Main__error--wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 100%;
-      padding: 1rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
-    }
-
-    .Main__title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #000;
-      margin-bottom: 16px;
-    }
-  }
 
   .Main__right {
     position: relative;
@@ -64,7 +20,7 @@
     flex-direction: column;
     place-items: center;
     height: fit-content;
-    width: 60%;
+    min-width: 60%;
     min-height: 250px;
     padding: 16px 16px 32px 16px;
     background: white;
@@ -90,6 +46,15 @@
           cursor: default;
         }
       }
+    }
+
+    .Main__right--ledContainer{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
 
     .Main__right--container {
@@ -153,20 +118,6 @@
     justify-content: flex-start;
     padding: 0 0 1rem 0;
 
-    .Main__left {
-      width: 100%;
-      margin-bottom: 0.5rem;
-      position: inherit;
-
-      .Main__form--wrapper {
-        min-height: 0;
-      }
-
-      .Main__title {
-        font-size: 1.25rem;
-      }
-    }
-
     .Main__right {
       width: 100%;
       min-height: 300px;
@@ -176,26 +127,4 @@
       }
     }
   }
-}
-
-.Main__input {
-  width: 100%;
-  height: 40px;
-  padding: 8px;
-  border: 1px solid #000;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-bottom: 16px;
-
-  @media (max-width: 768px) {
-    height: 2rem;
-    font-size: 0.8rem;
-  }
-}
-
-.Main__divider {
-  width: 100%;
-  border-bottom: gray 2px solid;
-  opacity: 0.5;
-  margin-top: 8px;
 }

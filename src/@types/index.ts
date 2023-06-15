@@ -1,27 +1,29 @@
 export interface iChartData {
-	label: string;
-	value: string | number;
-	unit: string;
+    label: string;
+    value: string | number;
+    unit: string;
 }
 
 export interface iChartRawData {
-	action: string;
-	body: {
-		name: string;
-		data: iChartData[];
-	};
-	type: string;
+    action: "msg";
+    type: "sensor" | "led_state" | "error";
+    body: {
+        name: string;
+        data: iChartData[];
+        ledPin: number;
+        state: "on" | "off";
+    };
 }
 
 export interface iDataState {
-	[k: string]: iChartData[];
+    [k: string]: iChartData[];
 }
 
 export interface iPreparedData {
-	[k: string]: {
-		[k: string]: {
-			values: number[];
-			unit: string;
-		};
-	};
+    [k: string]: {
+        [k: string]: {
+            values: number[];
+            unit: string;
+        };
+    };
 }

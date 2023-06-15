@@ -1,7 +1,8 @@
 import "./style.scss";
 import React, { useState } from "react";
 import Grow from "@mui/material/Grow";
-import Fade from "@mui/material/Fade";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { AlertTriangle, Cpu, Loader, XSquare } from "react-feather";
@@ -9,7 +10,8 @@ import { CustomChart } from "../CustomChart";
 import { iPreparedData } from "../../@types";
 
 interface iMainProps {
-    error: string[];
+    toggleLedState: () => void;
+    ledState: { ledPin?: number; state?: "on" | "off" };
     data: iPreparedData;
     isConnected: boolean;
     shouldConnect: boolean;
@@ -17,54 +19,19 @@ interface iMainProps {
     handleClearData: () => void;
 }
 
-const Main = ({error, data, isConnected, shouldConnect, handleConnection, handleClearData}: iMainProps) => {
-    const [title, setTitle] = useState("");
-    const [name, setName] = useState("");
-
+const Main = ({
+    ledState,
+    data,
+    toggleLedState,
+    isConnected,
+    shouldConnect,
+    handleConnection,
+    handleClearData,
+}: iMainProps) => {
     const hasData = Object.keys(data).length > 0;
-
-    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.target.value);
-    };
-
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
-    };
 
     return (
         <div className="Main__wrapper">
-            <section className="Main__left">
-                <div className="Main__form--wrapper">
-                    <h1 className="Main__title">Informações</h1>
-                    <input
-                        className="Main__input"
-                        placeholder="Título da coleta"
-                        value={title}
-                        onChange={handleTitleChange}
-                    />
-                    <input
-                        className="Main__input"
-                        placeholder="Nome do participante"
-                        value={name}
-                        onChange={handleNameChange}
-                    />
-                    <div className="Main__divider"/>
-                </div>
-
-                {error.length > 0 && (
-                    <div className="Main__error--wrapper">
-                        {error.map((err: string, errIndex) => (
-                            <Fade in={!!err} key={err + errIndex}>
-                                <div className="Main__error">
-                                    <XSquare size="16px"/>
-                                    <p>{err}</p>
-                                </div>
-                            </Fade>
-                        ))}
-                    </div>
-                )}
-            </section>
-
             <section className="Main__right">
                 <div className="Main__right--buttonWrapper">
                     <Tippy content="Limpa todos os dados recebidos.">
@@ -76,12 +43,31 @@ const Main = ({error, data, isConnected, shouldConnect, handleConnection, handle
                     <button onClick={handleConnection}>{isConnected ? "Desconectar" : "Conectar"}</button>
                 </div>
 
+                {hasData && (
+                    <div className="Main__right--ledContainer">
+                        <code>Ligar/Desligar LED: </code>
+                        <div>
+                            {ledState.state === "on" ? (
+                                <RadioButtonCheckedIcon
+                                    onClick={toggleLedState}
+                                    style={{ color: "lightgreen", fontSize: "3rem", cursor: "pointer" }}
+                                />
+                            ) : (
+                                <RadioButtonUncheckedIcon
+                                    onClick={toggleLedState}
+                                    style={{ fontSize: "3rem", cursor: "pointer" }}
+                                />
+                            )}
+                        </div>
+                    </div>
+                )}
+
                 {hasData &&
                     Object.entries(data).map(([sensorName, dataset], sensorIndex) => {
                         return (
                             <div className="Main__right--container" key={sensorName}>
                                 <h2 key={sensorName}>{sensorName}</h2>
-                                {Object.entries(dataset).map(([label, {values, unit}], dataIndex) => {
+                                {Object.entries(dataset).map(([label, { values, unit }], dataIndex) => {
                                     return (
                                         <CustomChart
                                             key={label + dataIndex + sensorIndex}
@@ -95,21 +81,19 @@ const Main = ({error, data, isConnected, shouldConnect, handleConnection, handle
                             </div>
                         );
                     })}
-
-                <Grow in={!hasData && !isConnected && !(error.length > 0)} unmountOnExit timeout={300}>
+                <Grow in={!hasData && !isConnected} unmountOnExit timeout={300}>
                     <div className="Main__right--empty">
                         {shouldConnect ? (
-                            <Loader size="5rem" color="#c1c1c1"/>
+                            <Loader size="5rem" color="#c1c1c1" />
                         ) : (
-                            <AlertTriangle size="5rem" color="#ff8f39"/>
+                            <AlertTriangle size="5rem" color="#ff8f39" />
                         )}
                         <em>{shouldConnect ? "Conectando..." : "Conecte - se para receber os dados"}</em>
                     </div>
                 </Grow>
-
                 {!hasData && isConnected && (
                     <div className="Main__right--empty Main__right-absolute">
-                        <Cpu size="5rem" color="#c1c1c1"/>
+                        <Cpu size="5rem" color="#c1c1c1" />
                         <p>Aguardando dados do micro-controlador...</p>
                     </div>
                 )}
